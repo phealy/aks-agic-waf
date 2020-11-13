@@ -77,22 +77,12 @@
             "metadata": {
                 "description": "Configure all linux machines with the SSH RSA public key string. Your key should include three parts, for example 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'"
             }
-        },
-        "osType": {
-            "type": "string",
-            "defaultValue": "Linux",
-            "allowedValues": [
-                "Linux"
-            ],
-            "metadata": {
-                "description": "The type of operating system."
-            }
         }
     },
     "resources": [
         {
             "type": "Microsoft.ContainerService/managedClusters",
-            "apiVersion": "2020-03-01",
+            "apiVersion": "2020-09-01",
             "name": "[parameters('clusterName')]",
             "location": "[parameters('location')]",
             "identity": {
@@ -115,13 +105,13 @@
                 },
                 "agentPoolProfiles": [
                     {
-                        "name": "agentpool",
+                        "name": "nodepool1",
                         "osDiskSizeGB": "[parameters('osDiskSizeGB')]",
                         "count": "[parameters('agentCount')]",
                         "vmSize": "[parameters('agentVMSize')]",
-                        "osType": "[parameters('osType')]",
-                        "storageProfile": "ManagedDisks",
+                        "osType": "Linux",
                         "type": "VirtualMachineScaleSets",
+                        "mode": "System",
                         "vnetSubnetID": "[parameters('clusterSubnetID')]"
                     }
                 ],

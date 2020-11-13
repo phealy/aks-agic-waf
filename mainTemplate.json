@@ -77,16 +77,6 @@
             "metadata": {
                 "description": "Configure all linux machines with the SSH RSA public key string. Your key should include three parts, for example 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'"
             }
-        },
-        "osType": {
-            "type": "string",
-            "defaultValue": "Linux",
-            "allowedValues": [
-                "Linux"
-            ],
-            "metadata": {
-                "description": "The type of operating system."
-            }
         }
     },
     "variables": {},
@@ -111,8 +101,7 @@
                     "agentCount": {"value": "[parameters('agentCount')]"},
                     "agentVMSize": {"value": "[parameters('agentVMSize')]"},
                     "linuxAdminUsername": {"value": "[parameters('linuxAdminUsername')]"},
-                    "sshRSAPublicKey": {"value": "[parameters('sshRSAPublicKey')]"},
-                    "osType": {"value": "[parameters('osType')]"}
+                    "sshRSAPublicKey": {"value": "[parameters('sshRSAPublicKey')]"}
                 }
             }
         },

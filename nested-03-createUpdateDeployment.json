@@ -30,7 +30,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "https://pahealy.blob.core.windows.net/agicv2/nested-04-updateAppGwConfig.json"
+                    "uri": "https://raw.githubusercontent.com/phealy/aks-agic-waf/main/nested-03-createUpdateDeployment.json"
                 },
                 "parameters": {
                     "appGwName": { "value": "[parameters('appGwName')]" },

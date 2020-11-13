@@ -8,9 +8,9 @@ If you deploy the Application Gateway via the addon, it is easy enough to update
 
 The templates in this repository make use of nesting and referencing to dynamically update the configuration on the AKS cluster Application Gateway in pure ARM template language; no shell scripting or other tools are required.
 
-The template makes use of four [linked templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/linked-templates#linked-template) to allow us to pass values back and forth properly while insuring resource consistency. The flow for the deployment is as follows:
+NOTES: This template is set up for an enterpise environment using UDRs to route traffic to an NVA. If you're not using UDRs, you'll need to modify [nested-01-deployAKSClusterWithAppGw.json](nested-01-deployAKSClusterWithAppGw.json) appropriately.
 
-To begin, [mainTemplate.json](mainTemplate.json) is deployed with the relevant parameters specified. This deployment is targeted on the resource group where the AKS cluster object should end up. This template contains 3 linked templates which deploy in order:
+The template makes use of four [linked templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/linked-templates#linked-template) to allow us to pass values back and forth properly while insuring resource consistency. To begin, [mainTemplate.json](mainTemplate.json) is deployed with the relevant parameters specified. This deployment is targeted on the resource group where the AKS cluster object should end up. This template contains 3 linked templates which deploy in order:
 
 1. [nested-01-deployAKSClusterWithAppGw.json](nested-01-deployAKSClusterWithAppGw.json) begins the process by deploying the actual AKS cluster and Application Gateway. After these deployments are complete, the template returns (via outputs) the resource ID of the Application Gateway and the AKS node resource group (where the application gateway is deployed).
 

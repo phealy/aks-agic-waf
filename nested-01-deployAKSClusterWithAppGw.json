@@ -121,6 +121,7 @@
                         "vmSize": "[parameters('agentVMSize')]",
                         "osType": "[parameters('osType')]",
                         "storageProfile": "ManagedDisks",
+                        "type": "VirtualMachineScaleSets",
                         "vnetSubnetID": "[parameters('clusterSubnetID')]"
                     }
                 ],

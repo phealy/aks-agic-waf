@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "clusterName": {
+            "value": "akseast1"
+        },
+        "clusterSubnetID": {
+            "value": "/subscriptions/69924db1-a0fe-43f6-b1ad-86bb3248f4a1/resourceGroups/rg-containers-network-eastus/providers/Microsoft.Network/virtualNetworks/vnet-containers-eastus/subnets/snet-containers-akseast1-eastus-001"
+        },
+        "dnsPrefix": {
+            "value": "pahealyakseast1"
+        },
+        "linuxAdminUsername": {
+            "value": "azureuser"
+        },
+        "sshRSAPublicKey": {
+            "value": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAhb3XdYBSpJWKB+P1LlveuFn2cbUplZnuRslyMLiMt4WtAF9wcSOKVTk4jHgExu19ndvOfJeoVaWe0R1kCkGVSminVKpn00nI0bW7xdjAB7+pP+GkwMLc8Ewr+ngjuOdNIqON/AW6RtaPY43qm9USzbT5iWyaSCE9BJTf3RFiDbNNY+qxnR+m0OsmdFvK0bIKC8Fzu/obcqF6DDKW6AmCfeQbCUnN0zYCV7ZwDs7RPPGnsaAPbe4Kb8XAyPulyNaROpJuSHoTQx9zivRSwtbL8tlJOsHVoK0G/HiJ5eKeilZaY61ZEjoONrWui9XJapTH7k/8fY6W1vyw0wElwj0uw5Myxo/i3j0vgB3QUyRbIbM07F5f1mZCrap61nB70PxgHvtvXMuz52BIjV8ekpmdqViV3AeltrG/XwJZr/m4eM0KpxgPlrY38srmmSATK7ZjgB0rmwKXJ6lfcq1e320iZwQc1TLJUNibbjg0P5uYRUlws4yvuLP5jLqIz5vI1ZtPznoB+I8j+fpVkKyWddhyA3ak+C3KGz+45xrFiIyu+rX+tta5/+sKALx9hsBg11lQIJKWxVFYOPsATEFaOKJ5FlTIwhKwXMHm13lQzwb5ek/1ox/Z35+KDR55Iptp+I4kSbQc+hSO21py7nfiPdZ6AG7Gsq0ReWbYW1CcA/DU/Kk= patrick.healy@microsoft.com"
+        },
+        "appGwName": {
+            "value": "akseast1-agw"
+        },
+        "appGwSubnetID": {
+            "value": "/subscriptions/69924db1-a0fe-43f6-b1ad-86bb3248f4a1/resourceGroups/rg-containers-network-eastus/providers/Microsoft.Network/virtualNetworks/vnet-containers-eastus/subnets/snet-containers-akseast1-appgw-eastus-001"
+        }
+    }
+}

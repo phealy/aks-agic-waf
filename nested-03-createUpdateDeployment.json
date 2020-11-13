@@ -1,0 +1,42 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appGwRG": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the resource group containing the application gateway."
+            }
+        },
+        "appGwName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the application gateway to update."
+            }
+        },
+        "appGwProperties": {
+            "type": "object",
+            "metadata": {
+                "description": "The properties of the application gateway to update."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "name": "04-updateAppGwConfig",
+            "resourceGroup": "[parameters('appGwRG')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://pahealy.blob.core.windows.net/agicv2/nested-04-updateAppGwConfig.json"
+                },
+                "parameters": {
+                    "appGwName": { "value": "[parameters('appGwName')]" },
+                    "appGwProperties": { "value": "[parameters('appGwProperties')]" }
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appGwId": {
+            "type": "string",
+            "metadata": {
+                "description": "The resource ID of the Application Gateway to retrieve details for."
+            }
+        }
+    },
+    "resources": [],
+    "outputs": {
+        "appGwName": {
+            "type": "string",
+            "value": "[last(split(parameters('appGwId'), '/'))]"
+        },
+        "appGwProperties": {
+            "type": "object",
+            "value": "[reference(parameters('appGwId'), '2020-06-01', 'Full').properties]"
+        }
+    }
+}

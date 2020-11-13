@@ -1,0 +1,158 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.1",
+    "parameters": {
+        "clusterName": {
+            "type": "string",
+            "defaultValue": "aks101cluster",
+            "metadata": {
+                "description": "The name of the Managed Cluster resource."
+            }
+        },
+        "clusterSubnetID": {
+            "type": "string",
+            "metadata": {
+                "description": "The resource ID of the subnet for the cluster"
+            }
+        },
+        "appGwName": {
+            "type": "string",
+            "defaultValue": "agw-aks101cluster",
+            "metadata": {
+                "description": "The name of the Application Gateway resource."
+            }
+        },
+        "appGwSubnetID": {
+            "type": "string",
+            "metadata": {
+                "description": "The resource ID of the subnet for the Application Gateway"
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "The location of the resources."
+            }
+        },
+        "dnsPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Optional DNS prefix to use with hosted Kubernetes API server FQDN."
+            }
+        },
+        "osDiskSizeGB": {
+            "type": "int",
+            "defaultValue": 0,
+            "minValue": 0,
+            "maxValue": 1023,
+            "metadata": {
+                "description": "Disk size (in GB) to provision for each of the agent pool nodes. This value ranges from 0 to 1023. Specifying 0 will apply the default disk size for that agentVMSize."
+            }
+        },
+        "agentCount": {
+            "type": "int",
+            "defaultValue": 1,
+            "minValue": 1,
+            "maxValue": 50,
+            "metadata": {
+                "description": "The number of nodes for the cluster."
+            }
+        },
+        "agentVMSize": {
+            "type": "string",
+            "defaultValue": "Standard_DS2_v2",
+            "metadata": {
+                "description": "The size of the Virtual Machine."
+            }
+        },
+        "linuxAdminUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "User name for the Linux Virtual Machines."
+            }
+        },
+        "sshRSAPublicKey": {
+            "type": "string",
+            "metadata": {
+                "description": "Configure all linux machines with the SSH RSA public key string. Your key should include three parts, for example 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'"
+            }
+        },
+        "osType": {
+            "type": "string",
+            "defaultValue": "Linux",
+            "allowedValues": [
+                "Linux"
+            ],
+            "metadata": {
+                "description": "The type of operating system."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.ContainerService/managedClusters",
+            "apiVersion": "2020-03-01",
+            "name": "[parameters('clusterName')]",
+            "location": "[parameters('location')]",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "dnsPrefix": "[parameters('dnsPrefix')]",
+                "enableRBAC": true,
+                "aadProfile": {
+                    "managed": true
+                },
+                "addonProfiles": {
+                    "ingressApplicationGateway": {
+                        "enabled": true,
+                        "config": {
+                            "applicationGatewayName": "[parameters('appGwName')]",
+                            "subnetId": "[parameters('appGwSubnetID')]"
+                        }
+                    }
+                },
+                "agentPoolProfiles": [
+                    {
+                        "name": "agentpool",
+                        "osDiskSizeGB": "[parameters('osDiskSizeGB')]",
+                        "count": "[parameters('agentCount')]",
+                        "vmSize": "[parameters('agentVMSize')]",
+                        "osType": "[parameters('osType')]",
+                        "storageProfile": "ManagedDisks",
+                        "vnetSubnetID": "[parameters('clusterSubnetID')]"
+                    }
+                ],
+                "linuxProfile": {
+                    "adminUsername": "[parameters('linuxAdminUsername')]",
+                    "ssh": {
+                        "publicKeys": [
+                            {
+                                "keyData": "[parameters('sshRSAPublicKey')]"
+                            }
+                        ]
+                    }
+                },
+                "networkProfile": {
+                    "networkPlugin": "azure",
+                    "loadBalancerSku": "Standard",
+                    "serviceCidr": "10.255.252.0/22",
+                    "dnsServiceIP": "10.255.252.10",
+                    "dockerBridgeCidr": "172.17.0.1/16",
+                    "outboundType": "userDefinedRouting"
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "appGwId": {
+            "type": "string",
+            "value": "[reference(parameters('clusterName')).addonProfiles.ingressApplicationGateway.config.effectiveApplicationGatewayId]"
+        },
+        "appGwRG": {
+            "type": "string",
+            "value": "[string(reference(parameters('clusterName')).nodeResourceGroup)]"
+        }
+    }
+}
